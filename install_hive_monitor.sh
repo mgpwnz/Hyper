@@ -7,6 +7,7 @@ SCRIPT_PATH="/usr/local/bin/check_hive_logs.sh"
 SERVICE_PATH="/etc/systemd/system/hive-monitor.service"
 TIMER_PATH="/etc/systemd/system/hive-monitor.timer"
 LOG_FILE="/var/log/hive_monitor.log"
+AIOS_CLI="/root/.aios/aios-cli"
 
 # Создание скрипта мониторинга
 cat <<EOF > $SCRIPT_PATH
@@ -17,8 +18,8 @@ LOG_FILE=\$(ls -t "\$LOG_DIR" | head -n 1)
 LOG_PATH="\$LOG_DIR/\$LOG_FILE"
 
 CHECK_PATTERN="Last pong received at"
-DISCONNECT_CMD="aios-cli hive disconnect"
-CONNECT_CMD="aios-cli hive connect"
+DISCONNECT_CMD="$AIOS_CLI hive disconnect"
+CONNECT_CMD="$AIOS_CLI hive connect"
 
 # Проверяем, есть ли зависания
 if tail -n 100 "\$LOG_PATH" | grep -q "\$CHECK_PATTERN"; then
